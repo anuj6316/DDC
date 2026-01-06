@@ -1,0 +1,50 @@
+[project]
+name = "ddc"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "doclayout-yolo>=0.0.4",
+    "huggingface-hub>=1.2.3",
+    "img2table>=1.4.2",
+    "langchain>=1.2.0",
+    "langchain-community>=0.4.1",
+    "langchain-ollama>=1.0.1",
+    "layoutparser>=0.3.4",
+    "llama-index>=0.14.12",
+    "opencv-contrib-python>=4.10.0.84",
+    "opencv-python>=4.12.0.88",
+    "paddleocr>=3.3.2",
+    "paddlepaddle>=3.2.2",
+    "pdfplumber>=0.11.8",
+    "pillow>=12.0.0",
+    "poethepoet>=0.37.0",
+    "pymupdf==1.26.6",
+    "pymupdf-layout>=1.26.6",
+    "pymupdf4llm>=0.2.7",
+    "pytesseract>=0.3.13",
+    "sqlalchemy-utils>=0.42.1",
+    "torch<2.6",
+    "torchvision>=0.20.1",
+    "ultralyticsplus==0.0.28",
+    "zenml[server]>=0.93.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "data-ingestion",
+]
+
+[tool.poe.tasks]
+# 1. Run the ZenML pipeline
+run_pipeline = "uv run python -m zenml_flow.run_pipeline"
+
+# 2. Start the ZenML Dashboard 
+viz = "zenml up"
+
+# 3. Initialize ZenML (Run once)
+setup = "zenml init"
+
+# 4. Standard PDF extraction 
+pdf_ingestion = "uv run data_ingestion2/pdf_parse/doclayout.py"

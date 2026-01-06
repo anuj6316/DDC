@@ -1,0 +1,28 @@
+[FILE: doclayout.py]
+- IMP: hf_hub_download, YOLOv10, pymupdf, numpy as np, utils.sort_boxes_reading_order
+- MODEL: repo="juliozhao/DocLayout-YOLO-DocStructBench", file="doclayout_yolo_docstructbench_imgsz1024.pt"
+- STATUS: In-memory processing implemented (no disk I/O for images).
+- FN: pdf_extraction(pdf_path)
+  - Opens PDF via pymupdf
+  - Iterates pages:
+    - pix = page.get_pixmap()
+    - img_array = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, 3)
+    - result = model.predict(img_array, imgsz=1024, conf=0.25, save=True, proj="run/doclayout2")
+    - sorted_elements = sort_boxes_reading_order(result)
+    - Logs PDF (pts) and Image (px) dimensions.
+- FN: main(pdf_path) -> calls pdf_extraction
+
+[FILE: utils.py]
+- FN: sort_boxes_reading_order(result, line_threshold=50)
+  - Logic: Groups elements into vertical zones; sorts left column before right column within zones.
+  - Handling: Full-width elements (>60% page) vs column-specific.
+- FN: pixel_to_pdf_coordinates(bbox, img_shape, pdf_page)
+  - Logic: Maps YOLO pixel coordinates to PyMuPDF point coordinates using resolution scaling.
+
+[CONCEPTS & OPTIMIZATION]
+- DLA: Using DocLayout-YOLO for zone classification.
+- COORDS: Converting CV pixels to Document points for precise extraction.
+- PERFORMANCE: 
+  - [DONE] In-Memory conversion (Numpy buffers).
+  - [PLANNED] Batch Inference (collecting pages before predict).
+  - [PLANNED] Model Export (TensorRT/ONNX).

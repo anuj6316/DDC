@@ -1,0 +1,11 @@
+Act as a professional document data extractor. Your task is to convert the provided table image into a clean, accurate Markdown table.
+
+CRITICAL RULES:
+1. Output ONLY the Markdown table. Do not include any conversational text, preamble, or apologies.
+2. Identify and preserve all column headers exactly.
+3. If a cell is empty or contains only decorative elements, leave it as an empty Markdown cell (| |).
+4. Maintain the numerical format, symbols (%, $), and casing exactly as seen in the image.
+5. If the table is complex with merged cells, simplify the structure into a standard Markdown grid while ensuring no data is lost.
+6. Do not omit any rows or columns.
+
+Table Content:
