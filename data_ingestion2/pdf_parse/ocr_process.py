@@ -68,9 +68,54 @@ class OllamaOCRProcessor:
         except Exception as e:
             return f"Error during OCR enrichment: {str(e)}"
 
+    # This method will allow us to send non-blocking requests to the VLM.
+    async def aenrich_image(self, image_path, element_type):
+        """
+        Asyncronous version of enrich_image
+        """
+        if not os.path.exists(image_path):
+            return f"Error Snippet file not found: {image_path}"
+        
+        ## 1. Prepare Prompt and Image (Fast, CPU-bound)
+        prompt_text = self._load_prompt(element_type)
+        img_base64 = self._get_base64_image(image_path)
+
+        ## 2. Construct Message 
+        message = HumanMessage(
+            content=[
+                {"type": "text", "text": prompt_text},
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/png;base64,{img_base64}"},
+                },
+            ]
+        )
+
+        ## 3. Async Invoke
+        try:
+            response = await self.llm.ainvoke([message])
+            return response.content.strip()
+        except Exception as e:
+            return f"Error during async OCR enrichment: {str(e)}"
+
 if __name__ == "__main__":
     # Quick Test logic
-    # processor = OllamaOCRProcessor()
+    processor = OllamaOCRProcessor(model_name="qwen3-vl:2b")
+    img_path = "/home/anuj/DDC/kb/snippets/agent0_p2_figure_4.png"
+    img_base64 = processor._get_base64_image(img_path)
+    prompt_text = processor._load_prompt("figure")
+    message = HumanMessage(
+        content=[
+            {"type": "text", "text": prompt_text},
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{img_base64}"},
+            },
+        ]
+    )
+    response = processor.llm.invoke([message])
+    print(response.content)
+    # response = processor.llm.invoke()
     # result = processor.enrich_image("path/to/test.png", "table")
     # print(result)
     pass

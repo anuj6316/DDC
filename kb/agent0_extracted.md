@@ -95,8 +95,6 @@ ternal data or human annotations, pioneeringly combining
 tool integration with multi-round co-evolution. The frame-
 work’s implementation begins with a base LLM from which
 
-**Figure_Caption:** Agent0: Unleashing Self-Evolving Agents from Zero Data via Tool-Integrated Reasoning
-
 ### VLM Enrichment (figure)
 1. **Title/Caption**:  
 Figure (a) and (b): “Curriculum Agent and Executor Agent Framework with Performance Benchmarks on MATH, SuperGPQA, MMLU-Pro, and BBEH”
@@ -106,27 +104,26 @@ Composite diagram combining an Architectural Diagram (Figure a) and four Bar Cha
 
 3. **Data Points/Labels**:  
 - **Figure (a) Components**:  
-  - Agents: Curriculum Agent (bear icon), Executor Agent (owl icon)  
-  - Flow: Question (q) → Executor Agent → Tool → Environment → Reasoning Process (Model Response, Tool Calling, Tool Response) → Predicted Answer (â)  
-  - Rewards: Curriculum Reward (rC), Executor Reward (rE)  
-  - Legend: Blue = Model Response, Green = Tool Calling, Orange = Tool Response  
+  - Agents: Curriculum Agent (bear character), Executor Agent (owl character).  
+  - Flow: Question (q) → Executor Agent → Tool → Reasoning Process → Predicted Answer (â) → Rewards (rC, rE).  
+  - Reasoning Process Subcomponents: Model Response (blue), Tool Calling (green), Tool Response (orange), Environment (globe icon).  
+  - Reward Symbols: Blue gift box (rC), green gift box (rE).  
 - **Figure (b) Bar Charts**:  
   - **MATH**: Qwen3-8B (78.0), w/ tools (79.2), Agent0 (82.4)  
   - **SuperGPQA**: Qwen3-8B (28.3), w/ tools (29.4), Agent0 (33.0)  
   - **MMLU-Pro**: Qwen3-8B (51.8), w/ tools (54.8), Agent0 (63.4)  
   - **BBEH**: Qwen3-8B (8.6), w/ tools (9.4), Agent0 (13.7)  
-  - X-axis: Model variants (Qwen3-8B, w/ tools, Agent0)  
-  - Y-axis: Performance score (numerical, scale varies per chart)
+  - Axes: Y-axis labeled with score values; X-axis labeled with model variants.
 
 4. **Detailed Summary**:  
-Figure (a) illustrates a multi-agent reinforcement learning architecture: the Curriculum Agent generates questions (q) and evaluates predicted answers (â) via Curriculum Reward (rC); the Executor Agent processes questions, invokes external tools via Tool Calling, interacts with an Environment, and generates Tool Responses, which feed into a Reasoning Process that outputs â. Executor Reward (rE) is computed based on tool execution outcomes. The workflow is cyclical: q → Executor → Tool → Environment → Reasoning → â → Rewards → Curriculum Agent feedback loop.  
-Figure (b) presents comparative performance metrics across four benchmarks: MATH, SuperGPQA, MMLU-Pro, and BBEH. Each chart displays three configurations: base Qwen3-8B, Qwen3-8B augmented with tools (“w/ tools”), and Agent0 (the full multi-agent system). Agent0 consistently achieves the highest score in all four benchmarks, indicating superior performance over baseline and tool-augmented single-agent configurations. Performance deltas are quantifiable: e.g., Agent0 outperforms Qwen3-8B by +4.4 on MATH, +4.7 on SuperGPQA, +11.6 on MMLU-Pro, and +5.1 on BBEH.
+Figure (a) illustrates a multi-agent reinforcement learning architecture for question-answering. The Curriculum Agent generates a question (q) and receives a Curriculum Reward (rC) based on the predicted answer (â). The Executor Agent processes the question, invokes external tools via Tool Calling, interacts with an Environment (simulated via globe icon), and generates a Tool Response. The Reasoning Process integrates Model Response, Tool Calling, and Tool Response to produce â. Executor Reward (rE) is computed based on â’s accuracy. Arrows denote directional data flow: q → Executor Agent → Tool → Reasoning Process → â → rC and rE.  
+Figure (b) presents comparative performance metrics across four benchmarks: MATH, SuperGPQA, MMLU-Pro, and BBEH. Each chart compares three configurations: base Qwen3-8B, Qwen3-8B with tools, and Agent0. Agent0 consistently outperforms both baselines across all benchmarks, with statistically significant score increases (e.g., +4.4 on MATH, +3.6 on SuperGPQA, +8.6 on MMLU-Pro, +4.3 on BBEH). The bar charts use distinct colors: gray for Qwen3-8B, dark gray for w/ tools, and blue for Agent0.
 
 5. **Key Takeaway**:  
-Agent0, a multi-agent system integrating Curriculum and Executor agents with tool-augmented reasoning, achieves state-of-the-art performance across MATH, SuperGPQA, MMLU-Pro, and BBEH benchmarks compared to Qwen3-8B and tool-augmented variants.
+Agent0, a curriculum-driven multi-agent system integrating tool-augmented reasoning and dual reward signals, achieves state-of-the-art performance across four diverse reasoning benchmarks compared to base and tool-enhanced Qwen3-8B models.
 
----
-*(Original Snippet: ![figure](snippets/agent0_p2_figure_5.png))*
+--
+*(Original Snippet: ![figure](snippets/agent0_p2_figure_4.png))*
 
 **Figure_Caption:** Figure 1. The Agent0 autonomous co-evolution framework. The Curriculum Agent (left) uses RL to generate frontier tasks, rewarded
 by the Executor Agent’s uncertainty and tool-use frequency. The Executor Agent (right) learn to solve them by RL. This shared tool
@@ -202,7 +199,7 @@ loss function (Schulman et al., 2017):
 ### VLM Enrichment (isolate_formula)
 $$ \mathcal{L}_{\text{GRPO}}(\theta) = -\frac{1}{G} \sum_{i=1}^{G} \min \left( \frac{\pi_{\theta}(x_i)}{\pi_{\theta_{\text{old}}}(x_i)} \hat{A}_i, \right. \\ \left. \text{clip} \left( \frac{\pi_{\theta}(x_i)}{\pi_{\theta_{\text{old}}}(x_i)}, 1 - \epsilon, 1 + \epsilon \right) \hat{A}_i \right) + \beta \text{KL}(\pi_{\theta} \| \pi_{\theta_{\text{old}}}), $$
 
----
+--
 *(Original Snippet: ![isolate_formula](snippets/agent0_p2_isolate_formula_7.png))*
 
 where
@@ -213,39 +210,10 @@ previous iteration. ˆAi is the normalized advantage, and ϵ
 and β are hyperparameters. The KL-divergence term acts
 
 ### VLM Enrichment (figure)
-1. **Title/Caption**:  
-   “Policy Update by GRPO” (top pathway) and “Policy Update by ADPO” (bottom pathway) — dual-agent reinforcement learning framework with curriculum-driven data filtering and environment interaction.
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
-2. **Type**:  
-   Architectural Diagram / Workflow Diagram depicting a multi-agent reinforcement learning system with policy optimization loops, data filtering, and environment feedback.
-
-3. **Data Points/Labels**:  
-   - **Agents**: Curriculum Agent (top-left, academic bear), Executor Agent (two instances, green bear with wrench), Environment (globe icon), Self-Consistency module (book stack), Ambiguity Signal (warning triangle).  
-   - **Data Flow Labels**:  
-     - Input: {x₁, ..., xᵢ} (task prompts)  
-     - Output: {ŷ₁, ..., ŷᵢ} (final predictions)  
-     - Intermediate: {yᵢ,₁, ..., yᵢ,ₘ} (m candidate responses per task)  
-   - **Legend (bottom-right)**:  
-     - Blue: Model Response  
-     - Green: Tool Calling  
-     - Orange: Tool Response  
-     - Purple: Final Answer  
-   - **Policy Update Methods**: GRPO (top), ADPO (bottom)  
-   - **Mechanisms**: Majority Voting, Self-Consistency (p(x̂) → Filtered Data), Ambiguity Signal (feedback to Curriculum Agent)
-
-4. **Detailed Summary**:  
-   The diagram illustrates a dual-path reinforcement learning architecture for policy optimization.  
-   - **Top Path (GRPO)**: Curriculum Agent generates task prompts {xᵢ}, which are processed by Executor Agent to produce m candidate responses {yᵢ,₁, ..., yᵢ,ₘ} per task. These responses are categorized by type (Model, Tool Calling, Tool Response, Final Answer) and aggregated via Majority Voting to yield final predictions {ŷᵢ}. The Environment provides feedback, which triggers Policy Update by GRPO, closing the loop back to Curriculum Agent.  
-   - **Bottom Path (ADPO)**: Curriculum Agent also feeds into a Self-Consistency module that evaluates p(x̂) to generate Filtered Data. This filtered dataset is processed by a second Executor Agent, producing candidate responses {yᵢ,₁, ..., yᵢ,ₘ}, which undergo Majority Voting to yield {ŷᵢ}. The Environment provides feedback, triggering Policy Update by ADPO. An Ambiguity Signal is generated from the filtered data and fed back to the Curriculum Agent to refine task selection.  
-   - **Cross-Path Interaction**: The Curriculum Agent receives feedback from both GRPO and ADPO loops, enabling adaptive task scheduling. The Executor Agent in both paths shares identical structure but operates on different data streams (raw vs. filtered).  
-   - **Environment Interaction**: Centralized Environment receives outputs from both Executor Agents and provides reward/feedback signals to both policy update mechanisms.  
-   - **Voting Mechanism**: Majority Voting is applied independently in both paths to consolidate multiple candidate responses into a single prediction per task.
-
-5. **Key Takeaway**:  
-   The system implements a dual-policy reinforcement learning framework where Curriculum Agent drives task generation, Executor Agents generate multi-response candidates, and Environment feedback enables policy updates via GRPO and ADPO, with ADPO incorporating self-consistency filtering and ambiguity-aware curriculum adaptation.
-
----
-*(Original Snippet: ![figure](snippets/agent0_p3_figure_5.png))*
+--
+*(Original Snippet: ![figure](snippets/agent0_p3_figure_4.png))*
 
 **Figure_Caption:** Figure 2. The Agent0 co-evolutionary loop. (1) Curriculum Evolution: The Curriculum Agent πθ is trained via RL to generate tasks,
 maximizing a reward RC based on executor Uncertainty Runc, Tool Use Rtool and Repetition Penalty Rrep. (2) Executor Evolution: Tasks
@@ -318,13 +286,13 @@ sponses that vote for the majority answer (˜y). The reward
 function is designed to be maximized when ˆp = 0.5, where
 the Executor’s uncertainty is highest:
 
-**Formula_Caption:** (2)
-
 ### VLM Enrichment (isolate_formula)
-$$ R_{\mathrm{unc}}(x; \pi_{\phi}) = 1 - 2 \left| \hat{p}(x; \pi_{\phi}) - 0.5 \right| $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![isolate_formula](snippets/agent0_p3_isolate_formula_13.png))*
+
+**Formula_Caption:** (2)
 
 This function penalizes tasks that are either too easy (ˆp →1)
 or too hard (ˆp →0).
@@ -336,48 +304,48 @@ identified by the tool response marker, i.e., ‘‘‘output,
 within a complete prediction y = πϕ(x). Let Ntool(y) be
 
 ### VLM Enrichment (table)
-| Algorithm 1 Self-Evolutionary Framework Agent 0 |
+| Algorithm 1 Self-Evolutionary Framework Agent0 |
 | --- |
 | Require: Base LLM π<sub>base</sub>; Iterations T; Samples k. |
-| 1: Initialize π<sub>θ</sub><sup>(0)</sup> ← π<sub>base</sub> and π<sub>φ</sub><sup>(0)</sup> ← π<sub>base</sub>. |
+| 1: Initialize π<sub>θ</sub><sup>(0)</sup> ← π<sub>base</sub> and π<sub>ϕ</sub><sup>(0)</sup> ← π<sub>base</sub>. |
 | 2: for each iteration t = 1, . . . , T do |
 | 3: ▷ Curriculum Evolution (Train π<sub>θ</sub>) |
 | 4: Initialize π<sub>θ</sub> ← π<sub>θ</sub><sup>(t−1)</sup> |
 | 5: Generate a batch of tasks X = {x<sub>i</sub>} ∼ π<sub>θ</sub> |
 | 6: for task x<sub>i</sub> ∈ X do |
-| 7: Sample k responses {y<sub>j</sub>}<sub>j=1</sub><sup>k</sup> ∼ π<sub>φ</sub><sup>(t−1)</sup>(x<sub>i</sub>) |
+| 7: Sample k responses {y<sub>j</sub>}<sub>j=1</sub><sup>k</sup> ∼ π<sub>ϕ</sub><sup>(t−1)</sup>(x<sub>i</sub>) |
 | 8: Compute R<sub>C</sub>(x<sub>i</sub>) using Eq. 5 |
 | 9: end for |
 | 10: Update π<sub>θ</sub> using L<sub>GRPO</sub> with (X, R<sub>C</sub>) → π<sub>θ</sub><sup>(t)</sup> |
-| 11: ▷ Executor Evolution (Train π<sub>φ</sub>) |
+| 11: ▷ Executor Evolution (Train π<sub>ϕ</sub>) |
 | 12: Generate X<sub>pool</sub> ∼ π<sub>θ</sub><sup>(t)</sup> and filter to D<sup>(t)</sup> = {(x, p̂, ỹ)} where |p̂(x) − 0.5| ≤ δ |
-| 13: Initialize π<sub>φ</sub> ← π<sub>φ</sub><sup>(t−1)</sup> |
+| 13: Initialize π<sub>ϕ</sub> ← π<sub>ϕ</sub><sup>(t−1)</sup> |
 | 14: for batch B<sub>D</sub> = {(x, p̂(x), ỹ)} ∼ D<sup>(t)</sup> do |
 | 15: Initialize T<sub>batch</sub>, Ã<sub>batch</sub>, P<sub>batch</sub> |
 | 16: for (x, p̂(x), ỹ) ∈ B<sub>D</sub> do |
-| 17: Sample k trajectories {τ<sub>i</sub>}<sub>i=1</sub><sup>k</sup> ∼ π<sub>φ</sub>(x) |
+| 17: Sample k trajectories {τ<sub>i</sub>}<sub>i=1</sub><sup>k</sup> ∼ π<sub>ϕ</sub>(x) |
 | 18: Compute rewards R<sub>i</sub> = I(o<sub>i</sub> = ỹ) |
 | 19: Compute scaled advantages Ã<sub>i</sub> ← A<sub>i</sub> · f(p̂(x)) |
 | 20: Add {τ<sub>i</sub>} to T<sub>batch</sub>, {Ã<sub>i</sub>} to Ã<sub>batch</sub>, p̂(x) to P<sub>batch</sub> |
 | 21: end for |
-| 22: Update π<sub>φ</sub> using L<sub>ADPO</sub> (Eq. 8) on collected batch |
+| 22: Update π<sub>ϕ</sub> using L<sub>ADPO</sub> (Eq. 8) on collected batch |
 | 23: end for |
-| 24: π<sub>φ</sub><sup>(t)</sup> ← π<sub>φ</sub> |
+| 24: π<sub>ϕ</sub><sup>(t)</sup> ← π<sub>ϕ</sub> |
 | 25: end for |
 
----
-*(Original Snippet: ![table](snippets/agent0_p4_table_14.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p4_table_8.png))*
 
 the total count of these markers in y. The reward is then
 calculated as a weighted, capped value:
 
-**Formula_Caption:** (3)
-
 ### VLM Enrichment (isolate_formula)
-$$ R_{\mathrm{tool}}(x; \pi_{\phi}) = \gamma \cdot \min(N_{\mathrm{tool}}(y), C) $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_17.png))*
+--
+*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_15.png))*
+
+**Formula_Caption:** (3)
 
 where γ is a scaling hyperparameter for reward score and C
 is a cap on the number of rewarded calls to prevent reward-
@@ -395,10 +363,10 @@ for a task xi belonging to cluster Ck is proportional to its
 relative cluster size:
 
 ### VLM Enrichment (isolate_formula)
-$$ R_{\mathrm{rep}}(x_i) = \lambda_{\mathrm{rep}} \frac{|C_k|}{B}, $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_15.png))*
+--
+*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_12.png))*
 
 **Formula_Caption:** (4)
 
@@ -409,10 +377,10 @@ nals, subtracting the repetition penalty, and is gated by a
 format check Rformat.
 
 ### VLM Enrichment (isolate_formula)
-$$ R_C(x_i) = R_{\text{format}}(x_i) \cdot \max(0, (\lambda_{\text{unc}} R_{\text{unc}} + \lambda_{\text{tool}} R_{\text{tool}}) - R_{\text{rep}}(x_i)) $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_13.png))*
+--
+*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_17.png))*
 
 **Formula_Caption:** (5)
 
@@ -440,13 +408,13 @@ responses and calculate its self-consistency ˆp(x). It is cal-
 culated as the proportion of responses that voted for this
 majority answer ˜y:
 
-**Formula_Caption:** (6)
-
 ### VLM Enrichment (isolate_formula)
-$$ \hat{p}(x) = \frac{1}{k} \sum_{i=1}^{k} \mathbb{I}(o_i = \tilde{y}), \quad \tilde{y} = \underset{y}{\mathrm{argmax}} \sum_{i=1}^{k} \mathbb{I}(o_i = y), $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_10.png))*
+
+**Formula_Caption:** (6)
 
 where I is the indicator function. To build an efficient
 training curriculum, we filter for tasks that lie at the ca-
@@ -454,10 +422,10 @@ pability frontier. So we retain only those tasks whose self-
 consistency scores fall within an informative band:
 
 ### VLM Enrichment (isolate_formula)
-$$ \mathcal{D}^{(t)} = \left\{ x \in X_{\text{pool}} \mid \left| \hat{p}(x; \pi_{\phi}^{(t-1)}) - 0.5 \right| \leq \delta \right\}, $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_11.png))*
+--
+*(Original Snippet: ![isolate_formula](snippets/agent0_p4_isolate_formula_14.png))*
 
 **Formula_Caption:** (7)
 
@@ -521,23 +489,10 @@ samples.
 ## Ambiguity-
 
 ### VLM Enrichment (figure)
-1. **Title/Caption**: Figure with y-axis labeled “Mean Up-Clipped Probability” and x-axis labeled “Step”; no explicit figure number or title visible.
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
-2. **Type**: Line Graph
-
-3. **Data Points/Labels**:
-   - X-axis: “Step”, ranging from 0 to 100, marked at intervals of 20.
-   - Y-axis: “Mean Up-Clipped Probability”, ranging from 0.000 to 0.004, marked at intervals of 0.001.
-   - Single data series: Blue line representing the trend of Mean Up-Clipped Probability over Steps.
-   - No legend, annotations, or secondary axes visible.
-
-4. **Detailed Summary**:
-   The graph plots a single continuous time-series trajectory where the dependent variable, “Mean Up-Clipped Probability”, is plotted against the independent variable, “Step”. The line exhibits a general downward trend from approximately 0.004 at Step 0 to approximately 0.001 at Step 100, indicating a monotonic decay in mean probability over time. Superimposed on this decay are high-frequency oscillations, suggesting stochastic or noisy behavior in the underlying process. No plateau, inflection point, or convergence to zero is observed within the 100-step window. The graph implies a non-stationary process with decreasing expectation and persistent variance.
-
-5. **Key Takeaway**: The Mean Up-Clipped Probability exhibits a decaying trend with persistent stochastic fluctuations over 100 steps, indicating progressive reduction in clipped event likelihood during the observed process.
-
----
-*(Original Snippet: ![figure](snippets/agent0_p5_figure_8.png))*
+--
+*(Original Snippet: ![figure](snippets/agent0_p5_figure_6.png))*
 
 Modulated
 Trust
@@ -590,9 +545,9 @@ The Executor Agent is updated by minimizing the ADPO
 objective:
 
 ### VLM Enrichment (isolate_formula)
-$$ \mathcal{L}_{\text{ADPO}}(\theta) = \mathbb{E}_{x \sim D^{(t)}} \Bigg[ -\frac{1}{G} \sum_{i=1}^{G} \min \Bigg( r_i(\theta) \tilde{A}_i(x), $$ $$ \text{clip} \Big( r_i(\theta), 1 - \epsilon_{\text{low}}, 1 + \epsilon_{\text{high}}(x) \Big) \tilde{A}_i(x) \Bigg) \Bigg], $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![isolate_formula](snippets/agent0_p5_isolate_formula_11.png))*
 
 **Formula_Caption:** (8)
@@ -644,29 +599,31 @@ Socratic-Zero (Wang et al., 2025d).
 
 Evaluation Datasets and Metrics. Agent0 requires no
 
+Evaluation Datasets and Metrics. Agent0 requires no
+
 **Table_Caption:** Table 1. Comprehensive results on mathematical reasoning benchmarks. The peak performance achieved during each model’s training
 process is highlighted in bold.
 
 ### VLM Enrichment (table)
-| Model Name | ✖️ | 🌀 | AVG | AMC | Minerva | MATH | GSM8K | Olympiad | AIME25 | AIME24 |
-|--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---|
+| Model Name | ✗ | 🌀 | AVG | AMC | Minerva | MATH | GSM8K | Olympiad | AIME25 | AIME24 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | *Qwen3-4B-Base* |  |  |  |  |  |  |  |  |  |  |
-| Base Model | ✖️ | ✖️ | 42.6 | 45.7 | 38.2 | 68.2 | 87.8 | 41.0 | 6.15 | 10.9 |
-| Base Model w/ tool | ✔️ | ✖️ | 44.2 | 46.3 | 39.6 | 71.0 | 88.6 | 43.7 | 7.71 | 12.3 |
-| + Absolute Zero | ✔️ | ✖️ | 46.4 | 50.0 | 41.9 | 76.2 | 89.3 | 41.5 | 13.4 | 12.2 |
-| + SPIRAL | ✖️ | ✖️ | 47.0 | 57.5 | 42.4 | 76.4 | 91.0 | 38.4 | 10.0 | 13.3 |
-| + R-Zero | ✖️ | ✖️ | 49.1 | 57.3 | 52.9 | 79.6 | 92.1 | 44.6 | 4.27 | 12.7 |
-| + Agent0 | ✔️ | ✔️ | 52.5 | 60.6 | 55.6 | 80.5 | 92.6 | 46.7 | 14.1 | 17.4 |
+| Base Model | ✗ | ✗ | 42.6 | 45.7 | 38.2 | 68.2 | 87.8 | 41.0 | 6.15 | 10.9 |
+| Base Model w/ tool | ✓ | ✗ | 44.2 | 46.3 | 39.6 | 71.0 | 88.6 | 43.7 | 7.71 | 12.3 |
+| + Absolute Zero | ✓ | ✗ | 46.4 | 50.0 | 41.9 | 76.2 | 89.3 | 41.5 | 13.4 | 12.2 |
+| + SPIRAL | ✗ | ✗ | 47.0 | 57.5 | 42.4 | 76.4 | 91.0 | 38.4 | 10.0 | 13.3 |
+| + R-Zero | ✗ | ✗ | 49.1 | 57.3 | 52.9 | 79.6 | 92.1 | 44.6 | 4.27 | 12.7 |
+| + Agent 0 | ✓ | ✗ | 52.5 | 60.6 | 55.6 | 80.5 | 92.6 | 46.7 | 14.1 | 17.4 |
 | *Qwen3-8B-Base* |  |  |  |  |  |  |  |  |  |  |
-| Base Model | ✖️ | ✖️ | 49.2 | 52.0 | 50.0 | 78.0 | 89.1 | 44.7 | 16.7 | 13.9 |
-| Base Model w/ tool | ✔️ | ✖️ | 53.2 | 60.3 | 54.9 | 79.2 | 90.7 | 47.9 | 18.7 | 20.9 |
-| + Absolute Zero | ✔️ | ✖️ | 52.6 | 62.5 | 52.9 | 76.6 | 92.0 | 47.8 | 18.2 | 18.4 |
-| + R-Zero | ✖️ | ✖️ | 54.7 | 61.7 | 60.7 | 82.0 | 94.1 | 48.9 | 19.2 | 16.4 |
-| + Socratic-Zero | ✖️ | ✔️ | 56.1 | 63.7 | 52.4 | 81.2 | 87.3 | 55.1 | 24.5 | 28.4 |
-| + Agent0 | ✔️ | ✖️ | 58.2 | 62.4 | 61.3 | 82.4 | 94.5 | 54.0 | 24.8 | 28.0 |
+| Base Model | ✗ | ✗ | 49.2 | 52.0 | 50.0 | 78.0 | 89.1 | 44.7 | 16.7 | 13.9 |
+| Base Model w/ tool | ✓ | ✗ | 53.2 | 60.3 | 54.9 | 79.2 | 90.7 | 47.9 | 18.7 | 20.9 |
+| + Absolute Zero | ✓ | ✗ | 52.6 | 62.5 | 52.9 | 76.6 | 92.0 | 47.8 | 18.2 | 18.4 |
+| + R-Zero | ✗ | ✗ | 54.7 | 61.7 | 60.7 | 82.0 | 94.1 | 48.9 | 19.2 | 16.4 |
+| + Socratic-Zero | ✗ | ✓ | 56.1 | 63.7 | 52.4 | 81.2 | 87.3 | 55.1 | 24.5 | 28.4 |
+| + Agent 0 | ✓ | ✗ | 58.2 | 62.4 | 61.3 | 82.4 | 94.5 | 54.0 | 24.8 | 28.0 |
 
----
-*(Original Snippet: ![table](snippets/agent0_p6_table_4.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p6_table_9.png))*
 
 **Table_Caption:** Table 2. Results on general-domain reasoning benchmarks.
 
@@ -679,7 +636,7 @@ process is highlighted in bold.
 | + Absolute Zero | ✓ | ✗ | 33.6 | 46.4 | 27.1 | 52.6 | 8.3 |
 | + SPIRAL | ✗ | ✗ | 34.2 | 47.0 | 27.1 | 53.2 | 9.57 |
 | + R-Zero | ✗ | ✗ | 34.6 | 49.1 | 27.6 | 51.5 | 10.4 |
-| + Agent0 | ✓ | ✗ | 37.6 | 52.5 | 29.9 | 55.9 | 12.0 |
+| + Agent0 | ✓ | ✓ | 37.6 | 52.5 | 29.9 | 55.9 | 12.0 |
 | *Qwen3-8B-Base* |  |  |  |  |  |  |  |
 | Base Model | ✗ | ✗ | 34.5 | 49.2 | 28.3 | 51.8 | 8.6 |
 | Base Model w/ tool | ✓ | ✗ | 36.7 | 53.2 | 29.5 | 54.8 | 9.37 |
@@ -688,8 +645,8 @@ process is highlighted in bold.
 | + Socratic-Zero | ✗ | ✓ | 39.2 | 56.1 | 30.1 | 60.9 | 9.5 |
 | + Agent0 | ✓ | ✗ | 42.1 | 58.2 | 33.0 | 63.4 | 13.7 |
 
----
-*(Original Snippet: ![table](snippets/agent0_p6_table_6.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p6_table_10.png))*
 
 human-annotated data for training. We evaluate all methods
 on two suites of benchmarks: 1) Mathematical Reason-
@@ -739,42 +696,37 @@ ule’s performance, along with a series of analytical experi-
 
 ### VLM Enrichment (figure)
 1. **Title/Caption**:  
-   Figure: “Math AVG” and “General AVG” — side-by-side bar charts comparing model performance across iterations.
+   Figure: Dual-panel bar chart titled “Math AVG” (left) and “General AVG” (right), comparing model performance across iterations.
 
 2. **Type**:  
-   Dual Bar Chart (Grouped Bar Chart)
+   Comparative Bar Chart (dual-panel, side-by-side).
 
 3. **Data Points/Labels**:  
-   - Left Chart: “Math AVG”  
-     - Y-axis: “Accuracy” (range: 50–60)  
-     - X-axis: Iterations — “Iter1”, “Iter2”, “Iter3”  
-     - Legend: Green = “Qwen3-4B”, Blue = “Qwen3-8B”  
-     - Data Values (approximate):  
+   - **Left Panel (“Math AVG”)**:  
+     - Y-axis: “Accuracy” (range 50–60).  
+     - X-axis: Iterations (“Iter1”, “Iter2”, “Iter3”).  
+     - Legend: Green bar = “Qwen3-4B”, Blue bar = “Qwen3-8B”.  
+     - Data:  
        - Iter1: Qwen3-4B ≈ 52.0, Qwen3-8B ≈ 55.2  
        - Iter2: Qwen3-4B ≈ 52.3, Qwen3-8B ≈ 55.7  
-       - Iter3: Qwen3-4B ≈ 52.7, Qwen3-8B ≈ 58.3  
-   - Right Chart: “General AVG”  
-     - Y-axis: “Accuracy” (range: 30–40)  
-     - X-axis: Iterations — “Iter1”, “Iter2”, “Iter3”  
-     - Legend: Green = “Qwen3-4B”, Blue = “Qwen3-8B”  
-     - Data Values (approximate):  
+       - Iter3: Qwen3-4B ≈ 52.7, Qwen3-8B ≈ 58.2  
+   - **Right Panel (“General AVG”)**:  
+     - Y-axis: “Accuracy” (range 30–40).  
+     - X-axis: Iterations (“Iter1”, “Iter2”, “Iter3”).  
+     - Legend: Green bar = “Qwen3-4B”, Blue bar = “Qwen3-8B”.  
+     - Data:  
        - Iter1: Qwen3-4B ≈ 31.5, Qwen3-8B ≈ 36.0  
-       - Iter2: Qwen3-4B ≈ 32.0, Qwen3-8B ≈ 36.2  
-       - Iter3: Qwen3-4B ≈ 32.7, Qwen3-8B ≈ 36.8  
+       - Iter2: Qwen3-4B ≈ 32.0, Qwen3-8B ≈ 36.3  
+       - Iter3: Qwen3-4B ≈ 32.7, Qwen3-8B ≈ 37.0  
 
 4. **Detailed Summary**:  
-   The figure presents a comparative performance evaluation of two model variants — Qwen3-4B (4-billion parameter) and Qwen3-8B (8-billion parameter) — across three training or fine-tuning iterations (Iter1, Iter2, Iter3). Two distinct evaluation domains are measured: “Math AVG” (mathematical reasoning accuracy) and “General AVG” (general task accuracy). In both domains, Qwen3-8B consistently outperforms Qwen3-4B across all iterations. Performance improves monotonically for both models as iterations progress, indicating iterative refinement or training convergence. The performance gap between Qwen3-8B and Qwen3-4B widens in Iter3, particularly in “Math AVG”, suggesting greater parameter-scale sensitivity in domain-specific tasks. No error bars or statistical significance indicators are present. Axes are scaled independently per chart to accommodate domain-specific accuracy ranges.
+   The figure presents a comparative performance analysis of two model variants — Qwen3-4B and Qwen3-8B — across three iterative training or evaluation cycles (Iter1, Iter2, Iter3) on two distinct benchmark categories: “Math AVG” and “General AVG”. In both panels, Qwen3-8B consistently outperforms Qwen3-4B in absolute accuracy. Both models exhibit a monotonic increase in accuracy across iterations, indicating progressive performance improvement. The performance gap between Qwen3-8B and Qwen3-4B widens in Iter3 for “Math AVG” (≈5.5-point delta) compared to “General AVG” (≈4.3-point delta), suggesting greater relative gain for the larger model on math-specific tasks. No error bars or statistical significance indicators are present. The dual-panel layout enables cross-domain comparison of model scaling effects.
 
 5. **Key Takeaway**:  
-   Qwen3-8B consistently achieves higher accuracy than Qwen3-4B across both Math and General domains, with performance gains amplifying over iterations, especially in Math AVG.
+   Qwen3-8B consistently achieves higher accuracy than Qwen3-4B across all iterations and both Math and General AVG benchmarks, with performance gains accelerating in later iterations, particularly in math tasks.
 
----
+--
 *(Original Snippet: ![figure](snippets/agent0_p7_figure_9.png))*
-
-**Figure_Caption:** Figure 4. Performance on mathematical and general reasoning
-benchmarks, showing consistent improvement for both Qwen3-4B
-and Qwen3-8B across three co-evolutionary iterations.
-ments, to better understand the performance gains.
 
 **Figure_Caption:** Figure 4. Performance on mathematical and general reasoning
 benchmarks, showing consistent improvement for both Qwen3-4B
@@ -795,8 +747,8 @@ ments, to better understand the performance gains.
 |w/o ADPO|34.9|56.2|
 |w/o Multi-turn|35.3|55.9|
 
----
-*(Original Snippet: ![table](snippets/agent0_p7_table_6.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p7_table_4.png))*
 
 Ablation Study. As shown in Table 3, we conducted a
 series of ablation experiments to evaluate the impact of each
@@ -838,14 +790,10 @@ the pass rate of the fixed Execution Agent (from Iteration 1) on
 datasets generated by the Curriculum Agent at different stages.
 
 ### VLM Enrichment (table)
-| Dataset | Pass Rate (Executor<sub>Iter 1</sub>) | Avg. Tool Calls |
-|--- |--- |---|
-| 𝒟<sub>Iter 1</sub> | 64.0 | 1.65 |
-| 𝒟<sub>Iter 2</sub> | 58.5 | 2.10 |
-| 𝒟<sub>Iter 3</sub> | 51.0 | 2.60 |
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![table](snippets/agent0_p7_table_5.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p7_table_6.png))*
 
 co-evolutionary loop. With the involvement of tools, the cur-
 riculum agent progressively generates more difficult tasks,
@@ -870,19 +818,10 @@ a slight performance
 boost. Agent0 signifi-
 
 ### VLM Enrichment (table)
-| Model | MATH | General |
-| --- | --- | --- |
-| Qwen3-4B | 42.6 | 22.0 |
-| w/o Tool |  |  |
-| +SPIRAL | 47.0 | 30.0 |
-| +R-Zero | 49.1 | 29.8 |
-| w/ Tool |  |  |
-| +TIR | 44.2 | 25.7 |
-| +Absolute Zero | 46.4 | 29.3 |
-| +Agent 0 | 52.5 | 32.6 |
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![table](snippets/agent0_p7_table_10.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p7_table_7.png))*
 
 cantly outperforms other tool-using baselines, such as Ab-
 solute Zero. Agent0 also significantly surpasses non-tool
@@ -916,31 +855,9 @@ lum Agent effectively generates increasingly difficult prob-
 lems, progressing from basic geometry (Iter 1) to complex
 
 ### VLM Enrichment (figure)
-1. **Title/Caption**:  
-   "Generated Questions from Curriculum Agent" (left panel); "Test Question (MATH)" with "Model Output by Agent0" (right panel).
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
-2. **Type**:  
-   Illustration / Workflow Diagram combining textual problem statements, agent interaction icons, and code execution output.
-
-3. **Data Points/Labels**:  
-   - Left Panel:  
-     - Iter 1: Geometry problem involving triangle ABC, points D/E, angle A = 90°, AD + EC = BC, AD·EC = BD·AE, find ∠B.  
-     - Iter 2: Optimization problem with rectangle R (sides 10, 5), point P, distances x, y, 10−x, 5−y, maximize x² + y².  
-     - Iter 3: Combinatorics problem on city neighborhood addresses 1 to N, no adjacent addresses share common digits, find max N as three-digit integer.  
-   - Right Panel:  
-     - Test Question: “Compute: 1 − 2 + 3 − 4 + 5 − … + 99 − 100”  
-     - Model Output by Agent0:  
-       - Reasoning: Pattern recognition, term pairing (2k−1)−2k → −1, 50 pairs → 50 × (−1) = −50.  
-       - Python code block: `sum(i if i % 2 != 0 else -i for i in range(1,101))` → output: `-50`  
-     - Final Answer: “The sum of the series 1 − 2 + 3 − 4 + 5 − … + 99 − 100 is \boxed{-50}.”
-
-4. **Detailed Summary**:  
-   The diagram illustrates a multi-agent curriculum learning pipeline for mathematical reasoning. On the left, a “Curriculum Agent” generates progressively complex math problems across three iterations (Iter 1–3), each associated with a distinct problem domain: Euclidean geometry, coordinate optimization, and combinatorial constraints. On the right, a “Test Question” is presented to “Agent0”, which performs symbolic reasoning by identifying alternating addition/subtraction patterns, grouping terms into 50 pairs each summing to −1, and deriving the total sum as −50. Agent0 validates its analytical solution via executable Python code using a generator expression with conditional logic (ternary operator based on parity), confirming output = −50. The workflow demonstrates a closed-loop verification mechanism: analytical derivation → code implementation → output validation → boxed final answer. Agent icons suggest role-based specialization (e.g., curriculum generation vs. problem solving).
-
-5. **Key Takeaway**:  
-   Agent0 solves a mathematical series problem through pattern recognition and code-based verification, yielding a final answer of −50, while the curriculum agent generates increasingly complex math problems across geometry, optimization, and combinatorics domains.
-
----
+--
 *(Original Snippet: ![figure](snippets/agent0_p8_figure_4.png))*
 
 **Figure_Caption:** Figure 5. Qualitative Case Analysis. Left: Examples of generated questions showing a clear increase in complexity and diversity from Iter
@@ -953,6 +870,8 @@ pabilities. In the provided example, the agent effectively
 combines natural language reasoning to identify patterns
 with the Python code interpreter to verify calculations, vali-
 dating the model’s ability to handle hybrid reasoning tasks.
+
+## 5. Related Work
 
 ## 5. Related Work
 
@@ -1091,6 +1010,18 @@ ing instruction-following capabilities of large language
 models. arXiv preprint arXiv:2406.13542, 2024.
 Du, X., Yao, Y., Ma, K., Wang, B., Zheng, T., Zhu, K., Liu,
 M., Liang, Y., Jin, X., Wei, Z., et al. Supergpqa: Scaling
+
+Cheng, Y., Chen, J., Chen, J., Chen, L., Chen, L., Chen, W.,
+Chen, Z., Geng, S., Li, A., Li, B., Li, B., Li, L., Liu, B.,
+Liu, J., Liu, K., Liu, Q., Liu, S., Liu, S., Liu, T., Liu, T.,
+Liu, Y., Long, R., Mai, J., Ning, G., Peng, Z. Y., Shen,
+K., Su, J., Su, J., Sun, T., Sun, Y., Tao, Y., Wang, G.,
+Wang, S., Wang, X., Wang, Y., Wang, Z., Xia, J., Xiang,
+L., Xiao, X., Xiao, Y., Xi, C., Xin, S., Xu, J., Xu, S.,
+Yang, H., Yang, J., Yang, Y., Yuan, J., Zhang, J., Zhang,
+Y., Zhang, Y., Zheng, S., Zhu, H., and Zhu, M. Fullstack
+bench: Evaluating llms as full stack coders, 2025. URL
+https://arxiv.org/abs/2412.00535.
 
 Cobbe, K., Kosaraju, V., Bavarian, M., Chen, M., Jun, H.,
 Kaiser, L., Plappert, M., Tworek, J., Hilton, J., Nakano,
@@ -1327,6 +1258,34 @@ Kuba, J. G., Gu, M., Ma, Q., Tian, Y., and Mohan, V. Lan-
 guage self-play for data-free training. arXiv preprint
 arXiv:2509.07414, 2025.
 
+Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu,
+C. H., Gonzalez, J. E., Zhang, H., and Stoica, I. Efficient
+memory management for large language model serving
+with pagedattention. In Proceedings of the ACM SIGOPS
+29th Symposium on Operating Systems Principles, 2023.
+
+Lewkowycz, A., Andreassen, A., Dohan, D., Dyer, E.,
+Michalewski, H., Ramasesh, V., Slone, A., Anil, C.,
+Schlag, I., Gutman-Solo, T., et al. Solving quantitative
+reasoning problems with language models. Advances in
+neural information processing systems, 35:3843–3857,
+2022.
+
+Li, P., Skripkin, M., Zubrey, A., Kuznetsov, A., and
+Oseledets, I.
+Confidence is all you need: Few-shot
+rl fine-tuning of language models.
+arXiv preprint
+arXiv:2506.06395, 2025a.
+
+Li, X., Zou, H., and Liu, P. Torl: Scaling tool-integrated rl.
+arXiv preprint arXiv:2503.23383, 2025b.
+
+Li, Y., Shen, X., Yao, X., Ding, X., Miao, Y., Krishnan,
+R., and Padman, R. Beyond single-turn: A survey on
+multi-turn interactions with large language models. arXiv
+preprint arXiv:2504.04717, 2025c.
+
 Lin, H. and Xu, Z. Understanding tool-integrated reasoning.
 arXiv preprint arXiv:2508.19201, 2025.
 
@@ -1334,10 +1293,25 @@ Lin, Z., Shen, S., Shang, J., Weston, J., and Nie, Y. Learning
 to solve and verify: A self-play framework for code and
 test generation. arXiv preprint arXiv:2502.14948, 2025.
 
+Liu, B., Guertler, L., Yu, S., Liu, Z., Qi, P., Balcells, D.,
+Liu, M., Tan, C., Shi, W., Lin, M., Lee, W. S., and Jaques,
+N. Spiral: Self-play on zero-sum games incentivizes rea-
+soning via multi-agent multi-turn reinforcement learning.
+arXiv preprint arXiv:2506.24119, 2025a.
+
 Liu, B., Jin, C., Kim, S., Yuan, W., Zhao, W., Kulikov, I., Li,
 X., Sukhbaatar, S., Lanchantin, J., and Weston, J. Spice:
 Self-play in corpus environments improves reasoning.
 arXiv preprint arXiv:2510.24684, 2025b.
+
+Liu, Y., Sun, P., and Li, H. Large language models as agents
+in two-player games. arXiv preprint arXiv:2402.08078,
+2024.
+
+Lu, H., Wen, Y., Cheng, P., Ding, R., Xu, H., Guo, J.,
+Wang, C., Chen, H., Jiang, X., and Jiang, G. Search
+self-play: Pushing the frontier of agent capability without
+supervision. arXiv preprint arXiv:2510.18821, 2025.
 
 Lin, H. and Xu, Z. Understanding tool-integrated reasoning.
 arXiv preprint arXiv:2508.19201, 2025.
@@ -1394,17 +1368,6 @@ agent enabling scalable agentic reasoning with minimal
 predefinition and maximal self-evolution. arXiv preprint
 arXiv:2505.20286, 2025b.
 
-Papineni, K., Roukos, S., Ward, T., and Zhu, W.-J. Bleu:
-a method for automatic evaluation of machine transla-
-tion. In Proceedings of the 40th annual meeting of the
-Association for Computational Linguistics, pp. 311–318,
-2002.
-
-Prabhudesai, M., Chen, L., Ippoliti, A., Fragkiadaki, K.,
-Liu, H., and Pathak, D. Maximizing confidence alone
-improves reasoning. arXiv preprint arXiv:2505.22660,
-2025.
-
 Qiu, J., Qi, X., Wang, H., Juan, X., Wang, Y., Zhao, Z.,
 Geng, J., Guo, J., Li, P., Shi, J., et al. Alita-g: Self-
 evolving generative agent for agent generation. arXiv
@@ -1440,6 +1403,14 @@ European Conference on Computer Systems, pp. 1279–
 Shi, T., Wu, Y., Song, L., Zhou, T., and Zhao, J. Efficient
 reinforcement finetuning via adaptive curriculum learning.
 arXiv preprint arXiv:2504.05520, 2025.
+
+Srivastava, A., Rastogi, A., Rao, A., Shoeb, A. A. M., Abid,
+A., Fisch, A., Brown, A. R., Santoro, A., Gupta, A.,
+Garriga-Alonso, A., et al. Beyond the imitation game:
+Quantifying and extrapolating the capabilities of language
+models.
+Transactions on machine learning research,
+2023.
 
 Rein, D., Hou, B. L., Stickland, A. C., Petty, J., Pang, R. Y.,
 Dirani, J., Michael, J., and Bowman, S. R. Gpqa: A
@@ -1538,6 +1509,11 @@ B., Wang, W., Wei, H., and Zhang, L. Socratic-zero:
 Bootstrapping reasoning via data-free agent co-evolution.
 arXiv preprint arXiv:2509.24726, 2025d.
 
+Wang, X., Li, B., Song, Y., Xu, F. F., Tang, X., Zhuge, M.,
+Pan, J., Song, Y., Li, B., Singh, J., et al. Openhands: An
+open platform for ai software developers as generalist
+agents. arXiv preprint arXiv:2407.16741, 2024a.
+
 Wang, Y., Ma, X., Zhang, G., Ni, Y., Chandra, A., Guo, S.,
 Ren, W., Arulraj, A., He, X., Jiang, Z., et al. Mmlu-pro:
 A more robust and challenging multi-task language un-
@@ -1592,9 +1568,62 @@ Yan, S., Yang, X., Huang, Z., Nie, E., Ding, Z., Li, Z., Ma,
 X., Kersting, K., Pan, J. Z., Sch¨utze, H., et al. Memory-
 r1: Enhancing large language model agents to manage
 
+Wang, H., Qian, C., Zhong, W., Chen, X., Qiu, J., Huang, S.,
+Jin, B., Wang, M., Wong, K.-F., and Ji, H. Otc: Optimal
+tool calls via reinforcement learning. arXiv e-prints, pp.
+arXiv–2504, 2025a.
+Wang, H., Que, H., Xu, Q., Liu, M., Zhou, W., Feng, J.,
+Zhong, W., Ye, W., Yang, T., Huang, W., et al. Reverse-
+engineered reasoning for open-ended generation. arXiv
+preprint arXiv:2509.06160, 2025b.
+Wang, H., Xu, Q., Liu, C., Wu, J., Lin, F., and Chen, W.
+Emergent hierarchical reasoning in llms through rein-
+forcement learning. arXiv preprint arXiv:2509.03646,
+2025c.
+Wang, S., Jiao, Z., Zhang, Z., Peng, Y., Ze, X., Yang,
+B., Wang, W., Wei, H., and Zhang, L. Socratic-zero:
+Bootstrapping reasoning via data-free agent co-evolution.
+arXiv preprint arXiv:2509.24726, 2025d.
+Wang, X., Li, B., Song, Y., Xu, F. F., Tang, X., Zhuge, M.,
+Pan, J., Song, Y., Li, B., Singh, J., et al. Openhands: An
+open platform for ai software developers as generalist
+agents. arXiv preprint arXiv:2407.16741, 2024a.
+Wang, Y., Ma, X., Zhang, G., Ni, Y., Chandra, A., Guo, S.,
+Ren, W., Arulraj, A., He, X., Jiang, Z., et al. Mmlu-pro:
+A more robust and challenging multi-task language un-
+derstanding benchmark. Advances in Neural Information
+Processing Systems, 37:95266–95290, 2024b.
 Wang, Y., Yang, L., Tian, Y., Shen, K., and Wang, M. Co-
 evolving llm coder and unit tester via reinforcement learn-
 ing. arXiv preprint arXiv:2506.03136, 2025e.
+Wu, F., Huang, X., Xuan, W., Zhang, Z., Xiao, Y., Wan,
+G., Li, X., Hu, B., Xia, P., Leskovec, J., et al. Mul-
+tiplayer nash preference optimization. arXiv preprint
+arXiv:2509.23102, 2025a.
+Wu, R., Wang, X., Mei, J., Cai, P., Fu, D., Yang, C., Wen, L.,
+Yang, X., Shen, Y., Wang, Y., et al. Evolver: Self-evolving
+llm agents through an experience-driven lifecycle. arXiv
+preprint arXiv:2510.16079, 2025b.
+Xia, P., Wang, J., Peng, Y., Zeng, K., Wu, X., Tang, X., Zhu,
+H., Li, Y., Liu, S., Lu, Y., et al. Mmedagent-rl: Opti-
+mizing multi-agent collaboration for multimodal medical
+reasoning. arXiv preprint arXiv:2506.00555, 2025.
+Xue, Z., Zheng, L., Liu, Q., Li, Y., Zheng, X., Ma, Z., and
+An, B. Simpletir: End-to-end reinforcement learning
+for multi-turn tool-integrated reasoning. arXiv preprint
+arXiv:2509.02479, 2025.
+Yan, S., Yang, X., Huang, Z., Nie, E., Ding, Z., Li, Z., Ma,
+X., Kersting, K., Pan, J. Z., Sch¨utze, H., et al. Memory-
+r1: Enhancing large language model agents to manage
+
+Wang, Y., Yang, L., Tian, Y., Shen, K., and Wang, M. Co-
+evolving llm coder and unit tester via reinforcement learn-
+ing. arXiv preprint arXiv:2506.03136, 2025e.
+
+Wu, F., Huang, X., Xuan, W., Zhang, Z., Xiao, Y., Wan,
+G., Li, X., Hu, B., Xia, P., Leskovec, J., et al. Mul-
+tiplayer nash preference optimization. arXiv preprint
+arXiv:2509.23102, 2025a.
 
 Wu, R., Wang, X., Mei, J., Cai, P., Fu, D., Yang, C., Wen, L.,
 Yang, X., Shen, Y., Wang, Y., et al. Evolver: Self-evolving
@@ -1610,6 +1639,10 @@ Xue, Z., Zheng, L., Liu, Q., Li, Y., Zheng, X., Ma, Z., and
 An, B. Simpletir: End-to-end reinforcement learning
 for multi-turn tool-integrated reasoning. arXiv preprint
 arXiv:2509.02479, 2025.
+
+Yan, S., Yang, X., Huang, Z., Nie, E., Ding, Z., Li, Z., Ma,
+X., Kersting, K., Pan, J. Z., Sch¨utze, H., et al. Memory-
+r1: Enhancing large language model agents to manage
 
 and utilize memories via reinforcement learning. arXiv
 preprint arXiv:2508.19828, 2025.
@@ -1770,7 +1803,7 @@ reinforcement learning. arXiv preprint arXiv:2504.16084,
 
 A.1. Hyperparameter Settings
 
-Executor Agent Training
+## Executor Agent Training
 
 • Global Batch Size: 128
 • Learning Rate: 1 × 10−6
@@ -1780,6 +1813,8 @@ Executor Agent Training
 • Number of Rollouts: 16
 • Rollout Temperature: 1.0
 • Rollout Top-p: 0.99
+
+## Curriculum Agent Training
 
 ## Curriculum Agent Training
 
@@ -1794,8 +1829,6 @@ Executor Agent Training
 
 ## A.2. Prompt
 
-## Table 6. Prompt template used for executor agent.
-
 Table 6. Prompt template used for executor agent.
 
 ## System Prompt:
@@ -1803,15 +1836,18 @@ Table 6. Prompt template used for executor agent.
 This section presents the prompt templates used for the executor and curriculum agent, and judge prompt in Table 6, Table 7
 and Table 8.
 
+This section presents the prompt templates used for the executor and curriculum agent, and judge prompt in Table 6, Table
+nd Table 8.
+
 A conversation between User and Assistant. The user asks a question, and the Assistant solves it. The assistant first
 thinks about the reasoning process in the mind and then provides the user with the answer. User: Please integrate
 natural language reasoning with programs to solve the problem above. If you want to run any python code, write code
 in the python markdown code block and the execution will be appended in an output code block like ‘‘‘python
 you code here‘‘‘ ‘‘‘output result here‘‘‘. Please put your final answer within boxed{}.
 
-{problem}
+## User Prompt:
 
-**Figure_Caption:** Table 7. Prompt template used for curriculum agent.
+{problem}
 
 **Table_Caption:** Table 7. Prompt template used for curriculum agent.
 
@@ -1830,9 +1866,9 @@ Do NOT output anything else—no explanations, no extra markup.
 
 ## User Prompt:
 
-new, challenging reasoning question now. Remember to format the output exactly as instructe
+Generate one new, challenging reasoning question now. Remember to format the output exactly as instructed.
 
-mplate used for judging. We use the GPT-4o (Achiam et al., 2023) as the judge model (temperature: 0.1).
+Table 8. Prompt template used for judging. We use the GPT-4o (Achiam et al., 2023) as the judge model (temperature: 0.1).
 
 ## System Prompt:
 
@@ -1877,8 +1913,9 @@ tool-aware baseline.
 • Socratic-Zero (Wang et al., 2025d): A strong baseline representing methods that leverage external proprietary models for
 reasoning assistance.
 
-• Absolute Zero (Zhao et al., 2025): A self-play method that does use a code executor for verification, representing a strong
-tool-aware baseline.
+• Base Model w/ tool: The base model evaluated in a zero-shot setting, but given access to the code interpreter.
+
+• SPIRAL (Liu et al., 2025a): A self-play method based on zero-sum games and multi-turn interactions.
 
 • Socratic-Zero (Wang et al., 2025d): A strong baseline representing methods that leverage external proprietary models for
 reasoning assistance.
@@ -1907,17 +1944,17 @@ language models.
 focusing on areas where language models traditionally struggle, such as symbolic manipulation, logical deduction, and
 algorithmic tracking.
 
-• Minerva (Lewkowycz et al., 2022): The dataset evaluates the model’s ability to handle formal scientific notation and solve
+AMC: A collection of problems from standard American middle and high school math competitions, serving as
+foundational benchmark for pre-collegiate mathematical reasoning.
+
+Minerva (Lewkowycz et al., 2022): The dataset evaluates the model’s ability to handle formal scientific notation and solv
 complex STEM-related questions.
 
-• MATH (Hendrycks et al., 2021): A comprehensive dataset of challenging high school competition problems across various
+MATH (Hendrycks et al., 2021): A comprehensive dataset of challenging high school competition problems across variou
 subfields (e.g., algebra, geometry), requiring complex heuristic search and multi-step derivation.
 
-• GSM8K (Cobbe et al., 2021): A classic benchmark consisting of high-quality grade school math word problems that test
+GSM8K (Cobbe et al., 2021): A classic benchmark consisting of high-quality grade school math word problems that te
 the model’s ability to perform multi-step logic using basic arithmetic operations.
-
-• Olympiad-Bench (He et al., 2024): An advanced benchmark aggregating extremely difficult problems from Chinese and
-International Mathematical Olympiads, designed to probe the upper limits of LLM reasoning capabilities.
 
 • AIME24 & AIME25: These datasets comprise problems from the 2024 and 2025 American Invitational Mathematics
 Examinations, serving as a rigorous test of advanced problem-solving on recent, likely uncontaminated data.
@@ -1936,9 +1973,15 @@ algorithmic tracking.
 
 ## D. Additional Results and Analysis
 
-## D. Additional Results and Analysis
-
 ## D.1. The Impact of the Number of Turns on Performance
+
+We investigate the impact of the conversation length on model performance by increasing the interaction turns from 1 to 4
+during the curriculum generation phase. As shown in Table 9, extending the number of turns yields significant benefits.
+Compared to the single-turn baseline, the 4-turn setting improves the executor’s overall performance by 3.4%, with specific
+gains of 3% on mathematical benchmarks and 2.6% on general domain tasks. This performance boost can be attributed to
+the increased complexity of the curriculum. Multi-turn interactions encourage the curriculum agent to generate tasks with
+longer context dependencies and progressive difficulty. Consequently, the executor is forced to enhance its capability to
+maintain logical consistency and reasoning over extended horizons, rather than relying on simple pattern matching.
 
 We investigate the impact of the conversation length on model performance by increasing the interaction turns from 1 to 4
 during the curriculum generation phase. As shown in Table 9, extending the number of turns yields significant benefits.
@@ -1955,40 +1998,22 @@ tables provide a comprehensive breakdown of the agent’s performance across all
 the effectiveness and robustness of Agent0.
 
 ### VLM Enrichment (table)
-|Number of Turns|Overall AVG|Math AVG|General AVG|
-|---|---|---|---|
-|1|35.5|50.4|30.8|
-|2|35.8|50.7|31.1|
-|3|36.1|51.2|31.3|
-|4|36.7|51.9|31.6|
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![table](snippets/agent0_p16_table_2.png))*
-
-**Table_Caption:** number of interaction turns. Increasing turns from 1 to 4 leads to consistent performance gains across a
 
 **Table_Caption:** Table 9. Ablation study on the number of interaction turns. Increasing turns from 1 to 4 leads to consistent performance gains across all
 domains.
 
-**Table_Caption:** Table 10. Comprehensive results on mathematical reasoning benchmarks. The peak performance achieved during each model’s training
-process is highlighted in bold.
+**Table_Caption:** able 10. Comprehensive results on mathematical reasoning benchmarks. The peak performance achieved during each model’s trainin
+rocess is highlighted in bold.
 
 ### VLM Enrichment (table)
-| Model Name | ✗ | 🔄 | AVG | AMC | Minerva | MATH | GSM8K | Olympiad | AIME25 | AIME24 |
-|--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---|
-| *Qwen3-4B-Base* |  |  |  |  |  |  |  |  |  |  |
-| Base Model | ✗ | ✗ | 42.6 | 45.7 | 38.2 | 68.2 | 87.8 | 41.0 | 6.15 | 10.9 |
-| + Agent0 (Iter 1) | ✓ | ✗ | 51.9 | 59.8 | 55.0 | 79.9 | 92.6 | 46.1 | 13.0 | 16.8 |
-| + Agent0 (Iter 2) | ✓ | ✗ | 52.2 | 60.0 | 55.1 | 80.2 | 92.5 | 46.5 | 13.8 | 17.1 |
-| + Agent0 (Iter 3) | ✓ | ✗ | 52.5 | 60.6 | 55.6 | 80.5 | 92.6 | 46.7 | 14.1 | 17.4 |
-| *Qwen3-8B-Base* |  |  |  |  |  |  |  |  |  |  |
-| Base Model | ✗ | ✗ | 49.2 | 52.0 | 50.0 | 78.0 | 89.1 | 44.7 | 16.7 | 13.9 |
-| + Agent0 (Iter 1) | ✓ | ✗ | 55.1 | 57.3 | 59.0 | 81.6 | 93.9 | 48.4 | 20.9 | 24.9 |
-| + Agent0 (Iter 2) | ✓ | ✗ | 56.5 | 59.2 | 60.1 | 81.9 | 94.0 | 51.2 | 22.9 | 26.1 |
-| + Agent0 (Iter 3) | ✓ | ✗ | 58.2 | 62.4 | 61.3 | 82.4 | 94.5 | 54.0 | 24.8 | 28.0 |
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
-*(Original Snippet: ![table](snippets/agent0_p16_table_1.png))*
+--
+*(Original Snippet: ![table](snippets/agent0_p16_table_0.png))*
 
 ## E. Case Analysis
 
@@ -2003,36 +2028,21 @@ learning stagnation.
 **Table_Caption:** Table 11. Results on general-domain reasoning benchmarks.
 
 ### VLM Enrichment (table)
-| Model Name | ✗ | ✓ | Overall AVG | MATH AVG | SuperGPQA | MMLU-Pro | BBEH |
-|--- |--- |--- |--- |--- |--- |--- |---|
-| *Qwen3-4B-Base* |  |  |  |  |  |  |  |
-| Base Model | ✗ | ✗ | 27.1 | 42.6 | 20.9 | 37.4 | 7.57 |
-| + Agent 0 (Iter 1) | ✓ | ✗ | 36.7 | 51.9 | 28.9 | 55.1 | 10.7 |
-| + Agent 0 (Iter 2) | ✓ | ✗ | 36.9 | 52.2 | 29.3 | 55.3 | 11.0 |
-| + Agent 0 (Iter 3) | ✓ | ✗ | 37.6 | 52.5 | 29.9 | 55.9 | 12.0 |
-| *Qwen3-8B-Base* |  |  |  |  |  |  |  |
-| Base Model | ✗ | ✗ | 34.5 | 49.2 | 28.3 | 51.8 | 8.6 |
-| + Agent 0 (Iter 1) | ✓ | ✗ | 40.7 | 55.1 | 32.5 | 62.2 | 13.0 |
-| + Agent 0 (Iter 2) | ✓ | ✗ | 41.3 | 56.5 | 32.5 | 62.4 | 13.6 |
-| + Agent 0 (Iter 3) | ✓ | ✗ | 42.1 | 58.2 | 33.0 | 63.4 | 13.7 |
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![table](snippets/agent0_p17_table_0.png))*
 
 **Table_Caption:** Table 12. Sampled questions generated by Curriculum Agent (Iter 1).
-
-**Figure_Caption:** Table 12. Sampled questions generated by Curriculum Agent (Iter 1).
 
 ## Questions from Curriculum Agent
 
 Let S be the set of all positive integers n for which the polynomial
 
-Let S be the set of all positive integers n for which the polynomial
-
 ### VLM Enrichment (isolate_formula)
-$$ P(x) = x^3 - 2023x^2 + nx - 1 $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![isolate_formula](snippets/agent0_p17_isolate_formula_3.png))*
 
 has three distinct positive integer roots. Find the sum of all elements in S.
@@ -2048,16 +2058,12 @@ incircle of the triangle touches BC, CA, and AB at D, E, and F respectively, and
 AF are x, y, and z respectively, prove that x2 + y2 + z2 ≥3K
 2 .
 
-Table 14. Sampled questions generated by Curriculum Agent (Iter 1).
-
 ## Table 14. Sampled questions generated by Curriculum Agent (Iter 1).
 
 ## Questions from Curriculum Agent
 
 What is the minimum number of points inside a square with side length 1 that are needed to ensure that at least two
 of the points are at most 0.25 units apart from each other?
-
-**Figure_Caption:** Table 15. Sampled questions generated by Curriculum Agent (Iter 2).
 
 Table 15. Sampled questions generated by Curriculum Agent (Iter 2).
 
@@ -2067,8 +2073,6 @@ On a 9 × 9 chessboard, initially one cell is black. In each move, you can choos
 black cell in the same row or column and invert the color of that chosen cell from white to black. Determine the
 minimum number of moves required to turn the entire chessboard into a black board.
 
-Table 16. Sampled questions generated by Curriculum Agent (Iter 2).
-
 ## Table 16. Sampled questions generated by Curriculum Agent (Iter 2).
 
 ## Questions from Curriculum Agent
@@ -2076,8 +2080,7 @@ Table 16. Sampled questions generated by Curriculum Agent (Iter 2).
 Let S = {1, 2, 3, . . . , 100}. A subset A of S is called *good* if for any x, y ∈A (with x ̸= y), the sum x + y is not
 a perfect square. Find the maximum possible size of a *good* subset of S.
 
-Let S = {1, 2, 3, . . . , 100}. A subset A of S is called *good* if for any x, y ∈A (with x ̸= y), the sum x + y is not
-a perfect square. Find the maximum possible size of a *good* subset of S.
+**Figure_Caption:** Table 17. Sampled questions generated by Curriculum Agent (Iter 2).
 
 ## Questions from Curriculum Agent
 
@@ -2090,9 +2093,9 @@ a city. The king chooses two existing cities, A and B, with coordinates (a1, a2,
 defines a new city C with coordinates calculated by the formula:
 
 ### VLM Enrichment (isolate_formula)
-$$ c_i = \frac{a_i^2 + b_i^2 + a_i b_i \cdot (1 + a_1 b_1 + a_2 b_2 + a_3 b_3)}{1 + a_1^2 + a_2^2 + a_3^2 + b_1^2 + b_2^2 + b_3^2 + (a_1 b_1 + a_2 b_2 + a_3 b_3)^2} $$
+Error during async OCR enrichment: too many concurrent requests (status code: 429)
 
----
+--
 *(Original Snippet: ![isolate_formula](snippets/agent0_p18_isolate_formula_1.png))*
 
 for i = 1, 2, 3.
@@ -2118,15 +2121,13 @@ and the coordinates of city B are
 , find the
 coordinates of the new city C.
 
-**Figure_Caption:** Table 18. Sampled questions generated by Curriculum Agent (Iter 3).
-
 ## Questions from Curriculum Agent
 
 A sequence of positive integers a1, a2, a3, . . . , a2024 is defined such that for each n ≥1, the number an+1 is
 determined by the rule an+1 = an + ⌊√an⌋, starting with a1 = 1. Find the remainder when a2024 is divided by
 1000.
 
-Table 19. Sampled questions generated by Curriculum Agent (Iter 3).
+**Figure_Caption:** Table 19. Sampled questions generated by Curriculum Agent (Iter 3).
 
 ## Questions from Curriculum Agent
 
@@ -2136,6 +2137,8 @@ matches that must be played to determine the champion if, for each round, the nu
 Fibonacci number?
 
 Table 20. Sampled questions generated by Curriculum Agent (Iter 3).
+
+**Figure_Caption:** Table 20. Sampled questions generated by Curriculum Agent (Iter 3).
 
 ## Table 20. Sampled questions generated by Curriculum Agent (Iter 3).
 

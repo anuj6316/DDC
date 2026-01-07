@@ -56,32 +56,74 @@ def extract_content_step(pdf_path: str) -> List[dict]:
 @step
 def enrich_markdown_step(content: List[dict], model_name: str = "qwen3-vl:235b-instruct-cloud") -> List[dict]:
     """
-    ZenML step: Enrich visual elements (tables, formulas, figures) using a VLM via Ollama.
+    ZenML step: Enrich visual elements using VLM concurrently.
     """
+    import asyncio
     processor = OllamaOCRProcessor(model_name=model_name)
-    enriched_content = []
-    
-    for chunk in content:
-        # Check if the chunk is visual and has a path to the image snippet
-        if chunk.get("is_visual") and "local_path" in chunk:
+    # enriched_content = []
+    async def process_all_visuals(content_list):
+        ## 1. Create a list of tasks for ONLY the visual chunks
+        tasks = []
+        visual_indices = []
+
+        for idx, chunk in enumerate(content_list):
+            if chunk.get("is_visual") and "local_path" in chunk:
+                element_type = chunk.get("type", "visual")
+                image_path = chunk["local_path"]
+
+                # We "call" the async function but don't 'await' it yet.
+                # This creates a 'task' object.
+                tasks.append(processor.aenrich_image(image_path, element_type))
+                visual_indices.append(idx)
+        
+        if not tasks:
+            return content_list
+
+        logging.info(f"Starting concurrent enrichment for {len(tasks)} snippets...")
+
+        ## 2. Run all tasks in parallel and wait for all to finish
+        results = await asyncio.gather(*tasks)
+
+        ## 3. Map the results back to the original content list
+        for i, vlm_text in enumerate(results):
+            original_idx = visual_indices[i]
+            chunk = content_list[original_idx]
             element_type = chunk.get("type", "visual")
-            image_path = chunk["local_path"]
-            
-            logging.info(f"Enriching {element_type} snippet using VLM: {image_path}")
-            vlm_text = processor.enrich_image(image_path, element_type)
-            
-            # Format the content to include the VLM text and the original snippet reference
-            # Use relative path for portability in the dashboard/markdown
-            snippet_name = os.path.basename(image_path)
+            snippet_name = os.path.basename(chunk["local_path"])
             rel_path = f"snippets/{snippet_name}"
-            
+
             chunk["content"] = (
                 f"### VLM Enrichment ({element_type})\n"
                 f"{vlm_text}\n\n"
-                f"---\n"
+                f"--\n"
                 f"*(Original Snippet: ![{element_type}]({rel_path}))*"
             )
-        
-        enriched_content.append(chunk)
+        return content_list
     
-    return enriched_content
+    # ZenML steps are synchronous, so we run our async logic using asyncio.run
+    return asyncio.run(process_all_visuals(content))
+
+    # for chunk in content:
+    #     # Check if the chunk is visual and has a path to the image snippet
+    #     if chunk.get("is_visual") and "local_path" in chunk:
+    #         element_type = chunk.get("type", "visual")
+    #         image_path = chunk["local_path"]
+            
+    #         logging.info(f"Enriching {element_type} snippet using VLM: {image_path}")
+    #         vlm_text = processor.enrich_image(image_path, element_type)
+            
+    #         # Format the content to include the VLM text and the original snippet reference
+    #         # Use relative path for portability in the dashboard/markdown
+    #         snippet_name = os.path.basename(image_path)
+    #         rel_path = f"snippets/{snippet_name}"
+            
+    #         chunk["content"] = (
+    #             f"### VLM Enrichment ({element_type})\n"
+    #             f"{vlm_text}\n\n"
+    #             f"---\n"
+    #             f"*(Original Snippet: ![{element_type}]({rel_path}))*"
+    #         )
+        
+    #     enriched_content.append(chunk)
+    
+    # return enriched_content
